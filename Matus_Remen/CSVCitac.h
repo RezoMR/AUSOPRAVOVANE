@@ -233,7 +233,7 @@ public:
 	}
 
 	*/
-
+//
 
 	structures::SortedSequenceTable<std::string, UzemnaJednotka*>* nacitajOkresy() {
 		string fname = "../CSVSubory/okresy.csv";
