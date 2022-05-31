@@ -165,7 +165,6 @@ public:
 				}
 				getline(cin, hladana);
 			}
-			cout << hladana <<"\n";
 
 			if (duplicity->containsKey(hladana)) {
 				for (int i = 0; i < duplicity->find(hladana)->size(); i++)
@@ -206,7 +205,7 @@ public:
 
 		case 2:
 			//filtrovanie
-				//f->Filtruj(obce, okresy, kraje, Slovensko);
+				f->Filtruj(vsetko, pomocnaBodoveVyh);
 			break;
 		case 3:
 			//triedenie
@@ -216,7 +215,7 @@ public:
 		}
 
 
-		
+		delete f;
 		delete bodVyh;
 		delete pomocnaBodoveVyh;
 		delete Slovensko;

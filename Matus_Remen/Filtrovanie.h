@@ -18,7 +18,7 @@ using namespace std;
 class Filtrovanie {
 
 public:
-	void Filtruj(structures::SortedSequenceTable<std::string, UzemnaJednotka*>* obce, structures::SortedSequenceTable<std::string, UzemnaJednotka*>* okresy, structures::SortedSequenceTable<std::string, UzemnaJednotka*>* kraje, UzemnaJednotka* Slovensko) {
+	void Filtruj(structures::SequenceTable<std::string, UzemnaJednotka*>* vsetko, structures::SequenceTable<std::string, UzemnaJednotka*>* pomocna) {
 
 
 		bool typ = false;
@@ -31,27 +31,11 @@ public:
 		FilterAND<UzemnaJednotka>* filtre = new FilterAND<UzemnaJednotka>();
 		
 
-
-		structures::SortedSequenceTable<std::string, UzemnaJednotka*>* vsetko = new structures::SortedSequenceTable<std::string, UzemnaJednotka*>;
-		vsetko->insert(Slovensko->getKod(), Slovensko);
-		for (structures::TableItem<std::string, UzemnaJednotka*>* obec : *obce) {
-			vsetko->insert(obec->getKey(), obec->accessData());
-		}
-		for (structures::TableItem<std::string, UzemnaJednotka*>* okres : *okresy) {
-			vsetko->insert(okres->getKey(), okres->accessData());
-		}
-		for (structures::TableItem<std::string, UzemnaJednotka*>* kraj : *kraje) {
-			vsetko->insert(kraj->getKey(), kraj->accessData());
-		}
-
-		structures::SortedSequenceTable<std::string, UzemnaJednotka*>* vybrane = new structures::SortedSequenceTable<std::string, UzemnaJednotka*>;
-
 		structures::UnsortedSequenceTable<string, UzemnaJednotka*>* vyfiltrovane = new structures::UnsortedSequenceTable<string, UzemnaJednotka*>();
 
 
 		//prislusnost
 		UZEMNEJEDNOTKY vybranyTyp = KRAJ;
-		UzemnaJednotka* prislusnost = Slovensko;
 
 		//vzdelanie pocet
 		int VZminimalnaPocet = 0;
@@ -146,12 +130,12 @@ public:
 			}
 		}
 
+
 		int vybranie = 0;
 		if (typ == true) {
 			cout << "Filter Typ" << "\n";
-			cout << "Zadajte typ:" << "\n";
-
-			cout << "Filter Typ" << "\n";
+			cout << "\n";
+	
 			cout << "Zadajte typ:" << "\n";
 			cout << "KRAJ____1" << "\n";
 			cout << "OKRES___2" << "\n";
@@ -178,52 +162,30 @@ public:
 		system("cls");
 
 		if (pris == true) {
-			string vyber;
+			string hladana;
+				cout << "Filter Prislusnost" << "\n";
+			cout << "\n";
+			cout << "Zadajte UzemnuJednotku: " << "\n";
 
-			cout << "Filter Prislusnost" << "\n";
-			cout << "Zadajte UzemnuJednotku" << "\n";
-
-			cout << "Zadajte Prislusnost:" << "\n";
-			cout << "Zadajte typ:" << "\n";
-			cout << "KRAJ____1" << "\n";
-			cout << "OKRES___2" << "\n";
-			cout << "SLOVENSKO____3" << "\n";
-			cin >> vybranie;
-
-			switch (vybranie) {
-			case 1:
-				cout << "Zadajte kod kraja: " << "\n";
-				for (structures::TableItem<std::string, UzemnaJednotka*>* kraj : *kraje) {
-					cout << kraj->accessData()->getNazov() << "  " << kraj->accessData()->getKod() << "\n";
+			while (true) {
+				if (hladana != "") {
+					break;
 				}
-
-				cin >> vyber;
-				prislusnost = kraje->find(vyber);
-
-				break;
-			case 2:
-				cout << "Zadajte kod OKRESU: " << "\n";
-				for (structures::TableItem<std::string, UzemnaJednotka*>* okres : *okresy) {
-					cout << okres->accessData()->getNazov() << "  " << okres->accessData()->getKod() << "\n";
-				}
-				cin >> vyber;
-				prislusnost = okresy->find(vyber);
-				break;
-			case 3:
-				prislusnost = Slovensko;
-				break;
+				getline(cin, hladana);
 			}
-			FilterUJPrislusnost* pris = new FilterUJPrislusnost(*prislusnost);
+
+			FilterUJPrislusnost* pris = new FilterUJPrislusnost(*vsetko->find(pomocna->find(hladana)->getKod()));
 			filtre->pridajFilter(pris);
 		}
 
-
+		system("cls");
 
 		if (vzpocet == true) {
-			cout << "Filter VzdelaniePocet" << "\n";
+			cout << "Filter VzdelaniePocet: " << "\n";
+			cout << "\n";
 			cout << "Zadajte minimalnu hodnotu:" << "\n";
 			cin >> VZminimalnaPocet;
-			cout << "Zadajte maximalnu hodnotu:" << "n";
+			cout << "Zadajte maximalnu hodnotu:" << "\n";
 			cin >> VZmaximalnaPocet;
 			cout << "Zadajte typ vzdelania:" << "\n";
 			cout << "Vyberte Vzdelanie:" << "\n";
@@ -497,18 +459,5 @@ public:
 			cout << "########################################################" << "\n";
 
 		}
-
-
-		delete vsetko;
-		vsetko = nullptr;
-		delete filtre;
-		filtre = nullptr;
-		delete vybrane;
-		vybrane = nullptr;
-		delete vyfiltrovane;
-		vyfiltrovane = nullptr;
-		//delete pris;
-		//pris = nullptr;
-
 	}
 };
