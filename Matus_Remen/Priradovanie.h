@@ -28,10 +28,15 @@ public:
 		//k¾úè je názov   
 		structures::SortedSequenceTable<string, structures::LinkedList<UzemnaJednotka*>*>* duplicity = new structures::SortedSequenceTable<string, structures::LinkedList<UzemnaJednotka*>*>();
 		//kluc je nazov
-		structures::SortedSequenceTable<string,UzemnaJednotka*>* pomocna = new structures::SortedSequenceTable<string, UzemnaJednotka*>();
+		structures::SortedSequenceTable<string,UzemnaJednotka*>* pomocnaBodoveVyh = new structures::SortedSequenceTable<string, UzemnaJednotka*>();
 		
-
 		
+		for (structures::TableItem<std::string, UzemnaJednotka*>* okres : *okresy) {
+			pomocnaBodoveVyh->insert(okres->accessData()->getNazov(), okres->accessData());
+		}
+		for (structures::TableItem<std::string, UzemnaJednotka*>* kraj : *kraje) {
+			pomocnaBodoveVyh->insert(kraj->accessData()->getNazov(), kraj->accessData());
+		}
 
 		structures::SortedSequenceTable<std::string, VzdelanieUJ*>* vzdelanie = n->nacitajVzdelanie();
 		structures::SortedSequenceTable<std::string, VekUJ*>* veky = n->nacitajVek();
@@ -39,7 +44,7 @@ public:
 		UzemnaJednotka* Slovensko = new UzemnaJednotka("Slovensko");
 
 
-		//Filtrovanie* f = new Filtrovanie();
+		Filtrovanie* f = new Filtrovanie();
 		bodoveVyhladavanie* bodVyh = new bodoveVyhladavanie();
 
 		cout << "koniec nacitavanie udajov" << "\n";
@@ -48,24 +53,26 @@ public:
 
 		for (structures::TableItem<std::string, UzemnaJednotka*>* item : *obce) {
 			item->accessData()->setKod(item->getKey());
-			if (pomocna->containsKey(item->accessData()->getNazov())) {
+			if (pomocnaBodoveVyh->containsKey(item->accessData()->getNazov())) {
 				if (duplicity->containsKey(item->accessData()->getNazov())) {
 					duplicity->find(item->accessData()->getNazov())->add(item->accessData());
 				}
 				else {
 					structures::LinkedList<UzemnaJednotka*>* x = new structures::LinkedList<UzemnaJednotka*>();
 					x->add(item->accessData());
-					x->add(pomocna->find(item->accessData()->getNazov()));
+					x->add(pomocnaBodoveVyh->find(item->accessData()->getNazov()));
 					duplicity->insert(item->accessData()->getNazov(), x);
 				}
 
 			}
 			else {
-				pomocna->insert(item->accessData()->getNazov(),item->accessData());
+				pomocnaBodoveVyh->insert(item->accessData()->getNazov(),item->accessData());
 			}
 		}
 		cout << "koniec hladania duplicit" << "\n";
 
+		
+		
 
 		system("cls");
 		cout << "zaciatok priradovania veku a vzdelania obciam" << "\n";
@@ -146,13 +153,19 @@ public:
 		cout << "Koniec______________________9" << "\n";
 		int vyber;
 		cin >> vyber;
-		string hladana;
+		string hladana = "";
 		int dupl;
 		UzemnaJednotka uj;
 		switch (vyber) {
 		case 1:
 			cout << "Zadajte nazov uzemnej jednotky: " << "\n";
-			cin >> hladana;
+			while (true) {
+				if (hladana != "") {
+					break;
+				}
+				getline(cin, hladana);
+			}
+			cout << hladana <<"\n";
 
 			if (duplicity->containsKey(hladana)) {
 				for (int i = 0; i < duplicity->find(hladana)->size(); i++)
@@ -173,13 +186,10 @@ public:
 				case KRAJ:
 					bodVyh->vyhladajKraj(vsetko->find(selectnuty));
 					break;
-				case STAT:
-					bodVyh->vyhladajSlovensko(Slovensko);
-					break;
 				}
 			}
 			else {
-				string kod = pomocna->find(hladana)->getKod();
+				string kod = pomocnaBodoveVyh->find(hladana)->getKod();
 
 				switch (vsetko->find(kod)->getTyp()) {
 				case OBEC:
@@ -190,9 +200,6 @@ public:
 					break;
 				case KRAJ:
 					bodVyh->vyhladajKraj(vsetko->find(kod));
-					break;
-				case STAT:
-					bodVyh->vyhladajSlovensko(Slovensko);
 					break;
 				}
 			}
@@ -211,7 +218,7 @@ public:
 
 		
 		delete bodVyh;
-		delete pomocna;
+		delete pomocnaBodoveVyh;
 		delete Slovensko;
 		delete vsetko;
 		for (auto item : *kraje) {
