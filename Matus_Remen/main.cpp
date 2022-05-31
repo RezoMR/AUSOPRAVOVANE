@@ -6,23 +6,9 @@
 
 int main() {
 	initHeapMonitor();
-	//Priradovanie* p = new Priradovanie();
-	//p->prirad();
-	CSVCitac* c = new CSVCitac();
+	Priradovanie* p = new Priradovanie();
+	p->prirad();
 
-	
-	structures::SortedSequenceTable<string, VekUJ*>* sst = c->nacitajVek();
-	
-	for (auto item : *sst) {
-		delete item->accessData();
-	}
-
-	delete sst;
-	
-
-
-
-	delete c;
-	//delete p;
+	delete p;
 	return 0;
 }

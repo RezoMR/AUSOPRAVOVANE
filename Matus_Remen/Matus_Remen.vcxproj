@@ -231,6 +231,7 @@
     <ClInclude Include="KriteriumUJVzdelaniePodiel.h" />
     <ClInclude Include="Priradovanie.h" />
     <ClInclude Include="Triedenie.h" />
+    <ClInclude Include="UzemnaJednotka.h" />
     <ClInclude Include="UZEMNEJEDNOTKY.h" />
     <ClInclude Include="VekUJ.h" />
     <ClInclude Include="VzdelanieUJ.h" />

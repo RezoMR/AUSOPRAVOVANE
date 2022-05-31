@@ -25,18 +25,7 @@ public:
 
 	void vyhladajObec(structures::SortedSequenceTable<std::string, UzemnaJednotka*>* jednotka) {
 		system("cls");
-		cout << "Zadajte kod obce:  " << "\n";
-		cout << "Prirucka:  " << "\n";
-		cout << "Bratislavsky kraj SK010" << "\n";
-		cout << "Trnavsky kraj SK021" << "\n";
-		cout << "Trenciansky kraj SK022" << "\n";
-		cout << "Nitriansky kraj SK023" << "\n";
-		cout << "Zilinsky kraj SK031" << "\n";
-		cout << "Banskobystricky kraj SK032" << "\n";
-		cout << "Presovsky kraj SK041" << "\n";
-		cout << "Kosicky kraj SK042" << "\n";
-		cout << "_________________________________________" << "\n";
-
+		cout << "Zadajte nazov uzemnej jednotky:" << "\n";
 
 		for (structures::TableItem<std::string, UzemnaJednotka*>* obec : *jednotka) {
 			cout << obec->accessData()->getNazov() << "  " << obec->accessData()->getKod() << "\n";

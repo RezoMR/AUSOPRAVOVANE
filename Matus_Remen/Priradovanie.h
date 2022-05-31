@@ -1,4 +1,4 @@
-/*
+
 #pragma once
 #include "CSVCitac.h"
 #include "UzemnaJednotka.h"
@@ -13,6 +13,7 @@ class Priradovanie {
 
 
 
+
 public:
 	void prirad()
 	{
@@ -23,18 +24,52 @@ public:
 		structures::SortedSequenceTable<string, UzemnaJednotka*>* okresy = n->nacitajOkresy();
 
 
-		//structures::SortedSequenceTable<std::string, VzdelanieUJ*>* vzdelanie = n->nacitajVzdelanie();
-		//structures::SortedSequenceTable<std::string, VekUJ*>* veky = n->nacitajVek();
+		//pomocne na riešenie duplicít
+		//k¾úè je názov   
+		structures::SortedSequenceTable<string, structures::LinkedList<UzemnaJednotka*>*>* duplicity = new structures::SortedSequenceTable<string, structures::LinkedList<UzemnaJednotka*>*>();
+		//kluc je nazov
+		structures::SortedSequenceTable<string,UzemnaJednotka*>* pomocna = new structures::SortedSequenceTable<string, UzemnaJednotka*>();
+		
+
+
+
+		structures::SortedSequenceTable<std::string, VzdelanieUJ*>* vzdelanie = n->nacitajVzdelanie();
+		structures::SortedSequenceTable<std::string, VekUJ*>* veky = n->nacitajVek();
+
+
 
 		UzemnaJednotka* Slovensko = new UzemnaJednotka("Slovensko");
 
-		//Triedenie* t = new Triedenie();
-		Filtrovanie* f = new Filtrovanie();
-		bodoveVyhladavanie* a = new bodoveVyhladavanie();
+
+		//Filtrovanie* f = new Filtrovanie();
+		//bodoveVyhladavanie* a = new bodoveVyhladavanie();
 
 		cout << "koniec nacitavanie udajov" << "\n";
 		system("cls");
+		cout << "hladanie duplicit" << "\n";
 
+		for (structures::TableItem<std::string, UzemnaJednotka*>* item : *obce) {
+			if (pomocna->containsKey(item->accessData()->getNazov())) {
+				if (duplicity->containsKey(item->accessData()->getNazov())) {
+					duplicity->find(item->accessData()->getNazov())->add(item->accessData());
+				}
+				else {
+					structures::LinkedList<UzemnaJednotka*>* x = new structures::LinkedList<UzemnaJednotka*>();
+					x->add(item->accessData());
+					x->add(pomocna->find(item->accessData()->getNazov()));
+					duplicity->insert(item->accessData()->getNazov(), x);
+				}
+
+			}
+			else {
+				pomocna->insert(item->accessData()->getNazov(),item->accessData());
+			}
+		}
+		delete pomocna;
+		cout << "koniec hladania duplicit" << "\n";
+
+
+		system("cls");
 		cout << "zaciatok priradovania veku a vzdelania obciam" << "\n";
 		int i = 0;
 		for (structures::TableItem<std::string, UzemnaJednotka*>* item : *obce) {
@@ -49,6 +84,8 @@ public:
 		}
 		cout << "dokoncene priradovanie veku a vzdelania obciam" << "\n";
 		system("cls");
+
+
 		cout << "zaciatok prepajania a priradovania obci okresom" << "\n";
 
 		for (structures::TableItem<std::string, UzemnaJednotka*>* obec : *obce) {
@@ -85,9 +122,28 @@ public:
 		}
 
 		cout << "koniec prepajania a priradovania okresov krajom" << "\n";
+		cout << "kompletizovanie" << "\n";
+
+		structures::SortedSequenceTable<std::string, UzemnaJednotka*>* vsetko = new structures::SortedSequenceTable<std::string, UzemnaJednotka*>;
+		vsetko->insert(Slovensko->getKod(), Slovensko);
+		for (structures::TableItem<std::string, UzemnaJednotka*>* obec : *obce) {
+			vsetko->insert(obec->getKey(), obec->accessData());
+		}
+		for (structures::TableItem<std::string, UzemnaJednotka*>* okres : *okresy) {
+			vsetko->insert(okres->getKey(), okres->accessData());
+		}
+		for (structures::TableItem<std::string, UzemnaJednotka*>* kraj : *kraje) {
+			vsetko->insert(kraj->getKey(), kraj->accessData());
+		}
+
+		cout << "koniec kompletizacie" << "\n";
+
+
+
+
 		system("cls");
 		
-
+		
 		cout << "Vyberte co chcete vykonat: (zadajte cislo)" << "\n";
 		cout << "Bodove vyhladavanie_________1" << "\n";
 		cout << "Filtrovanie_________________2" << "\n";
@@ -95,87 +151,75 @@ public:
 		cout << "Koniec______________________9" << "\n";
 		int vyber;
 		cin >> vyber;
-
+		string hladana;
+		int dupl;
 		switch (vyber) {
 		case 1:
-			cout << "Vyberte uzemnu jednotku: (zadajte cislo)" << "\n";
-			cout << "Obec________________________1" << "\n";
-			cout << "Okres_______________________2" << "\n";
-			cout << "Kraj________________________3" << "\n";
-			cout << "Slovensko___________________4" << "\n";
-			int vyber;
-			cin >> vyber;
-			switch (vyber) {
-			case 1:
+			cout << "Zadajte nazov uzemnej jednotky: " << "\n";
+			cin >> hladana;
 
-				a->vyhladajObec(obce);
-
-				break;
-			case 2:
-				a->vyhladajOkres(okresy);
-
-				break;
-			case 3:
-
-				a->vyhladajKraj(kraje);
-
-				break;
-			case 4:
-				a->vyhladajSlovensko(Slovensko);
-				break;
+			if (duplicity->containsKey(hladana)) {
+				for (int i = 0; i < duplicity->find(hladana)->size(); i++)
+				{
+					cout << hladana << " " << duplicity->find(hladana)->at(i)->getVyssiaNazov() << "  " << i << "\n";
+				}
+				cout << "zadajte cislo uzemnej jednotky, ktoru chcete vybrat:" << "\n";
+				cin >> dupl;
+				string selectnuty = duplicity->find(hladana)->at(dupl)->getKod();
+				
 			}
-			break;
+
 		case 2:
 			//filtrovanie
-				f->Filtruj(obce, okresy, kraje, Slovensko);
+				//f->Filtruj(obce, okresy, kraje, Slovensko);
 			break;
 		case 3:
 			//triedenie
 			//t->tried(obce, okresy, kraje);
 
 			break;
-		case 9:
-			delete a;
-			delete f;
-			delete Slovensko;
-
-			for (auto item : *kraje) {
-				if (item->accessData() != nullptr) {
-					delete item->accessData();
-				}
-			}
-			delete kraje;
-			for (auto item : *obce) {
-				if (item->accessData() != nullptr) {
-					delete item->accessData();
-				}
-			}
-			delete obce;
-			for (auto item : *okresy) {
-				if (item->accessData() != nullptr) {
-					delete item->accessData();
-				}
-			}
-			delete okresy;
-			delete n;
-			return ;
-			break;
 		}
 
 
+		
 
 
+		delete Slovensko;
+		delete vsetko;
+		for (auto item : *kraje) {
+			if (item->accessData() != nullptr) {
+				delete item->accessData();
+			}
+		}
+		delete kraje;
+		for (auto item : *obce) {
+			if (item->accessData() != nullptr) {
+				delete item->accessData();
+			}
+		}
+		delete obce;
+		for (auto item : *okresy) {
+			if (item->accessData() != nullptr) {
+				delete item->accessData();
+			}
+		}
+		delete okresy;
+		delete n;
 
-
-
-
+		for (auto item : *duplicity) {
+			delete item->accessData();
+		}
+		delete duplicity;
 
 		
+		delete veky;
+
 		
+		delete vzdelanie;
+
 
 
 		//cout << "koniec";
 	}
 	
 };
-*/

@@ -13,10 +13,6 @@ public:
 		pocty = new structures::Array<int>(8);
 	}
 
-
-	
-	
-
 	//deštruktor
 	~VzdelanieUJ() {
 		delete pocty;
@@ -44,10 +40,10 @@ public:
 
 
 	//pripoèíta vzdelanie, vyuzivam pri praradovani
-	void pripocitajVzdelanie(VzdelanieUJ v) {
+	void pripocitajVzdelanie(VzdelanieUJ* v) {
 		for (int i = 0; i < pocty->size(); i++)
 		{
-			pocty->at(i) += v.vratVzdelanie()->at(i);
+			pocty->at(i) += v->vratVzdelanie()->at(i);
 		}
 	}
 

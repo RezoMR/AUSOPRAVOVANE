@@ -11,14 +11,15 @@
 #include "../structures/heap_monitor.h"
 #include "VzdelanieUJ.h"
 #include "VekUJ.h"
+#include "UzemnaJednotka.h"
 
 
 using namespace std;
 class CSVCitac {
 public:
 
-	/*
-	structures::SortedSequenceTable<std::string, UzemnaJednotka>* nacitajKraje() {
+	
+	structures::SortedSequenceTable<std::string, UzemnaJednotka*>* nacitajKraje() {
 		string fname = "../CSVSubory/kraje.csv";
 
 		vector<vector<string>> content;
@@ -44,7 +45,6 @@ public:
 	}
 
 		structures::SortedSequenceTable<string, UzemnaJednotka*>* vysledok = new structures::SortedSequenceTable<string, UzemnaJednotka*>();
-
 		structures::LinkedList<string>* vsetko = new structures::LinkedList<string>();				//vsetko musim deletnut
 
 		for (int i = 0; i < content.size(); i++)
@@ -99,25 +99,17 @@ public:
 			}
 		}
 		//koniec vypis kodu
-
-
+	
 		for (int i = 0; i < vsetko->size(); i++) {
-			uzemne->add(new UzemnaJednotka(vsetko->at(i)));
+			vysledok->insert(kod->at(i), new UzemnaJednotka(vsetko->at(i)));
 		}
-
-		//pridanie do vysledku, 
-		for (int y = 0; y < uzemne->size(); y++)
-		{
-			uzemne->at(y)->setKod(kod->at(y));
-			vysledok->insert(kod->at(y), uzemne->at(y));
 		
-		}
-		//koniec pridanie do vysledku
-
+		delete vsetko;
+		delete kod;
 		return vysledok;
 	}
 
-
+	
 
 	structures::SortedSequenceTable<std::string, UzemnaJednotka*>* nacitajObce() {
 		string fname = "../CSVSubory/obce.csv";
@@ -145,7 +137,6 @@ public:
 		}
 		structures::LinkedList<string>* vsetko = new structures::LinkedList<string>();
 		structures::SortedSequenceTable<string, UzemnaJednotka*>* vysledok = new structures::SortedSequenceTable<string, UzemnaJednotka*>();
-		structures::LinkedList<UzemnaJednotka*>* uzemne = new structures::LinkedList<UzemnaJednotka*>();
 
 		for (int i = 0; i < content.size(); i++)
 		{
@@ -212,19 +203,11 @@ public:
 		}
 		//koniec kod
 
-
-
 		for (int i = 0; i < vsetko->size(); i++) {
-			uzemne->add(new UzemnaJednotka(vsetko->at(i)));
+			vysledok->insert(kod->at(i), new UzemnaJednotka(vsetko->at(i)));	
 		}
 
-		//pridanie do vysledku, 
-		for (int y = 0; y < uzemne->size(); y++)
-		{
-			uzemne->at(y)->setKod(kod->at(y));
-			vysledok->insert(kod->at(y), uzemne->at(y));
 
-		}
 
 		//koniec pridanie do vysledku
 		delete vsetko;
@@ -232,8 +215,6 @@ public:
 		return vysledok;
 	}
 
-	*/
-//
 
 	structures::SortedSequenceTable<std::string, UzemnaJednotka*>* nacitajOkresy() {
 		string fname = "../CSVSubory/okresy.csv";
@@ -260,8 +241,7 @@ public:
 			cout << "Nepodarilo sa otvorit \n";
 		}
 		structures::LinkedList<string>* vsetko = new structures::LinkedList<string>();
-		structures::SortedSequenceTable<string, UzemnaJednotka>* vysledok = new structures::SortedSequenceTable<string, UzemnaJednotka>();
-		structures::LinkedList<UzemnaJednotka>* uzemne = new structures::LinkedList<UzemnaJednotka>();
+		structures::SortedSequenceTable<string, UzemnaJednotka*>* vysledok = new structures::SortedSequenceTable<string, UzemnaJednotka*>();
 
 		for (int i = 0; i < content.size(); i++)
 		{
@@ -294,7 +274,7 @@ public:
 				}
 				if (pocitadlo == 3) {
 					vsetko->at(i).erase(y, vsetko->at(i).size());
-					vsetko->at(i).erase(0, prva + 1);
+					vsetko->at(i).erase(0, prva+1);
 				}
 			}
 		}
@@ -325,32 +305,22 @@ public:
 				kod->at(i).erase(kod->at(i).size() - 1, 1);
 			}
 			kod->at(i).erase(kod->at(i).size() - 1, 1);
-			//cout << kod->at(i) << "\n";
 		}
 		//koniec kod
 
-
-
 		for (int i = 0; i < vsetko->size(); i++) {
-			uzemne->add(new UzemnaJednotka(vsetko->at(i)));
-		}
-
-		//pridanie do vysledku, 
-		for (int y = 0; y < uzemne->size(); y++)
-		{
-			uzemne->at(y)->setKod(kod->at(y));
-			vysledok->insert(kod->at(y), uzemne->at(y));
-
+			vysledok->insert(kod->at(i), new UzemnaJednotka(vsetko->at(i)));
 		}
 
 
+
+		//koniec pridanie do vysledku
 		delete vsetko;
 		delete kod;
 		return vysledok;
 	}
 	
 	
-
 	structures::SortedSequenceTable<string,VekUJ*>* nacitajVek() {
 
 		string fname = "../CSVSubory/vek.csv";

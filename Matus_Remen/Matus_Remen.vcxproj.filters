@@ -347,6 +347,9 @@
     <ClInclude Include="FilterUJVekovaSkupinaPodiel.h">
       <Filter>Source Files\Filter</Filter>
     </ClInclude>
+    <ClInclude Include="UzemnaJednotka.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\CSVSubory\kraje.csv">
