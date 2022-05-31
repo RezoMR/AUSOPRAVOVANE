@@ -20,3 +20,5 @@ inline KriteriumUJPrislusnost::KriteriumUJPrislusnost(UzemnaJednotka vyssia)
 {
 	vyssi = vyssia;
 }
+
+

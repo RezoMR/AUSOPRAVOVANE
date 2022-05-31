@@ -417,7 +417,7 @@ public:
 		system("cls");
 		for (structures::TableItem<std::string, UzemnaJednotka*>* item : *vybrane) {
 			cout << item->accessData()->getNazov() << "\n";
-			cout << item->accessData()->vypisTyp() << "\n";
+			//cout << item->accessData()->vypisTyp() << "\n";
 			if (vzpocet == true) {
 				KriteriumUJVzdelaniePocet* KVZPocet = new KriteriumUJVzdelaniePocet(ZAKLADNE);
 				KVZPocet->evaluate(*item->accessData());

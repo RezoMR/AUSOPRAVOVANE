@@ -15,35 +15,27 @@ inline double KriteriumUJVzdelaniePodiel::evaluate(UzemnaJednotka& uj) {
 	string vypis;
 	switch (vzdelanie) {
 	case BEZUKONCENEHO:
-		vypis = "Bez ukonceneho ";
 		ktore = 0;
 		break;
 	case ZAKLADNE:
-		vypis = "Zakladne ";
 		ktore = 1;
 		break;
 	case UCNOVSKE:
-		vypis = "Ucnovske ";
 		ktore = 2;
 		break;
 	case STREDNE:
-		vypis = "Stredne ";
 		ktore = 3;
 		break;
 	case VYSSIE:
-		vypis = "Vyssie ";
 		ktore = 4;
 		break;
 	case VYSOKOSKOLSKE:
-		vypis = "Vysokoskolske ";
 		ktore = 5;
 		break;
 	case BEZVZDELANIA:
-		vypis = "Bez vzdelania ";
 		ktore = 6;
 		break;
 	case NEZISTENE:
-		vypis = "Nezistene ";
 		ktore = 7;
 		break;
 	}
@@ -53,8 +45,6 @@ inline double KriteriumUJVzdelaniePodiel::evaluate(UzemnaJednotka& uj) {
 
 	podiel = prve / druhe;
 	podiel = podiel * 100;
-
-	std::cout << vypis <<  "podiel je:" << podiel << "\n";
 	return podiel;
 }
 

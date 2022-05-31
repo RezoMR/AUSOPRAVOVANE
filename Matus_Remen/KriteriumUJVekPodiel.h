@@ -31,6 +31,5 @@ inline double KriteriumUJVekPodiel::evaluate(UzemnaJednotka& uj) {
 	
 	int vsetko = uj.vratPocetLudi();
 	pomer = vybrany / vsetko;
-	std::cout << "pomer je:" << pomer * 100 << "\n";
 	return (pomer*100);
 }

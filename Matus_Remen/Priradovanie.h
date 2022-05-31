@@ -31,24 +31,23 @@ public:
 		structures::SortedSequenceTable<string,UzemnaJednotka*>* pomocna = new structures::SortedSequenceTable<string, UzemnaJednotka*>();
 		
 
-
+		
 
 		structures::SortedSequenceTable<std::string, VzdelanieUJ*>* vzdelanie = n->nacitajVzdelanie();
 		structures::SortedSequenceTable<std::string, VekUJ*>* veky = n->nacitajVek();
-
-
 
 		UzemnaJednotka* Slovensko = new UzemnaJednotka("Slovensko");
 
 
 		//Filtrovanie* f = new Filtrovanie();
-		//bodoveVyhladavanie* a = new bodoveVyhladavanie();
+		bodoveVyhladavanie* bodVyh = new bodoveVyhladavanie();
 
 		cout << "koniec nacitavanie udajov" << "\n";
 		system("cls");
 		cout << "hladanie duplicit" << "\n";
 
 		for (structures::TableItem<std::string, UzemnaJednotka*>* item : *obce) {
+			item->accessData()->setKod(item->getKey());
 			if (pomocna->containsKey(item->accessData()->getNazov())) {
 				if (duplicity->containsKey(item->accessData()->getNazov())) {
 					duplicity->find(item->accessData()->getNazov())->add(item->accessData());
@@ -65,7 +64,6 @@ public:
 				pomocna->insert(item->accessData()->getNazov(),item->accessData());
 			}
 		}
-		delete pomocna;
 		cout << "koniec hladania duplicit" << "\n";
 
 
@@ -138,9 +136,6 @@ public:
 
 		cout << "koniec kompletizacie" << "\n";
 
-
-
-
 		system("cls");
 		
 		
@@ -153,6 +148,7 @@ public:
 		cin >> vyber;
 		string hladana;
 		int dupl;
+		UzemnaJednotka uj;
 		switch (vyber) {
 		case 1:
 			cout << "Zadajte nazov uzemnej jednotky: " << "\n";
@@ -161,12 +157,44 @@ public:
 			if (duplicity->containsKey(hladana)) {
 				for (int i = 0; i < duplicity->find(hladana)->size(); i++)
 				{
-					cout << hladana << " " << duplicity->find(hladana)->at(i)->getVyssiaNazov() << "  " << i << "\n";
+					cout << hladana << " " << duplicity->find(hladana)->at(i)->getVyssiaNazov() << "   " << i << "\n";
 				}
 				cout << "zadajte cislo uzemnej jednotky, ktoru chcete vybrat:" << "\n";
 				cin >> dupl;
 				string selectnuty = duplicity->find(hladana)->at(dupl)->getKod();
-				
+
+				switch (vsetko->find(selectnuty)->getTyp()) {
+				case OBEC:
+					bodVyh->vyhladajObec(vsetko->find(selectnuty));
+					break;
+				case OKRES:
+					bodVyh->vyhladajOkres(vsetko->find(selectnuty));
+					break;
+				case KRAJ:
+					bodVyh->vyhladajKraj(vsetko->find(selectnuty));
+					break;
+				case STAT:
+					bodVyh->vyhladajSlovensko(Slovensko);
+					break;
+				}
+			}
+			else {
+				string kod = pomocna->find(hladana)->getKod();
+
+				switch (vsetko->find(kod)->getTyp()) {
+				case OBEC:
+					bodVyh->vyhladajObec(vsetko->find(kod));
+					break;
+				case OKRES:
+					bodVyh->vyhladajOkres(vsetko->find(kod));
+					break;
+				case KRAJ:
+					bodVyh->vyhladajKraj(vsetko->find(kod));
+					break;
+				case STAT:
+					bodVyh->vyhladajSlovensko(Slovensko);
+					break;
+				}
 			}
 
 		case 2:
@@ -182,8 +210,8 @@ public:
 
 
 		
-
-
+		delete bodVyh;
+		delete pomocna;
 		delete Slovensko;
 		delete vsetko;
 		for (auto item : *kraje) {

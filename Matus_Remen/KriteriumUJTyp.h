@@ -14,7 +14,6 @@
 	};
 
 	inline UZEMNEJEDNOTKY KriteriumUJTyp::evaluate(UzemnaJednotka& uj) {
-		std::cout << uj.vypisTyp() << "\n";
 		return uj.getTyp();
 	}
 

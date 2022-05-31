@@ -60,8 +60,9 @@ public:
 		kod = s;
 	}
 	void setVek(VekUJ* paVek) {
-
+		delete vek;
 		vek = paVek;
+		//vek->vytvorSkupiny();
 		pocetObyvatelov = vek->vratPocetLudi();
 	}
 
@@ -75,12 +76,10 @@ public:
 	int vratEVS(int ktora) {
 		return vek->vratPocetEVS(ktora);
 	}
-	void vytvorVekoveSkupiny() {
-		vek->vytvorSkupiny();
-	}
-	string vypisTyp() {
+	
+	string vypisTyp(UZEMNEJEDNOTKY typUzemnejJednotkyy) {
 		string vysledok;
-		switch (typUzemnejJednotky) {
+		switch (typUzemnejJednotkyy) {
 			case
 			KRAJ:
 				vysledok = "kraj";

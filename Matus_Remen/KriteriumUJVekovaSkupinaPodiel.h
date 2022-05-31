@@ -27,7 +27,6 @@ inline double KriteriumUJVekovaSkupinaPodiel::evaluate(UzemnaJednotka& uj) {
 				druhe = (double)uj.vratPocetLudi();
 				vysledok = prve / druhe;
 				vysledok = vysledok * 100;
-				cout << "Podiel predproduktivny: " << vysledok << "\n";
 				return vysledok;
 				break;
 				case
@@ -36,7 +35,6 @@ inline double KriteriumUJVekovaSkupinaPodiel::evaluate(UzemnaJednotka& uj) {
 					druhe = (double)uj.vratPocetLudi();
 					vysledok = prve / druhe;
 					vysledok = vysledok * 100;
-					cout << "Podiel produktivny: " << vysledok << "\n";
 					return vysledok;
 					break;
 					case
@@ -45,7 +43,6 @@ inline double KriteriumUJVekovaSkupinaPodiel::evaluate(UzemnaJednotka& uj) {
 						druhe = (double)uj.vratPocetLudi();
 						vysledok = prve / druhe;
 						vysledok = vysledok * 100;
-						cout << "Podiel poproduktivny: " << vysledok << "\n";
 						return vysledok;
 						break;
 

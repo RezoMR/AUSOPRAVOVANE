@@ -32,8 +32,8 @@ public:
 		delete VSmuzi;
 		delete VSzeny;
 	}
-
-	//settery 
+	/*
+	//settery
 	void setMuzi(structures::Array<int>* a) {
 		muzi = a;
 	}
@@ -49,26 +49,50 @@ public:
 	}
 	//koniec settery
 
-
+	*/
 	//pripocitanie, vyuzivam v priradovani 
 	void pripocitajVek(VekUJ* v) {
 		for (int i = 0; i < muzi->size(); i++) {
-			muzi->at(i) = v->getMuzi()->at(i);
+			muzi->at(i) += v->getMuzi()->at(i);
 		}
 		for (int i = 0; i < zeny->size(); i++) {
-			zeny->at(i) = v->getZeny()->at(i);
+			zeny->at(i)+= v->getZeny()->at(i);
 		}
 		for (int i = 0; i < VSmuzi->size(); i++) {
-			VSmuzi->at(i) = v->getVSMuzi()->at(i);
+			VSmuzi->at(i) += v->getVSMuzi()->at(i);
 		}
 		for (int i = 0; i < VSzeny->size(); i++) {
-			VSzeny->at(i) = v->getVSZeny()->at(i);
+			VSzeny->at(i) += v->getVSZeny()->at(i);
 		}
 	}
 	//koniec pripocitaviana
 
 
+
+
 	//pouzivam pri nacitavani
+	void pripocitajVSMuziPRVA(int kolko) {
+		VSmuzi->at(0) += kolko;
+	}
+	void pripocitajVSMuziDRUHA(int kolko) {
+		VSzeny->at(1) += kolko;
+	}
+	void pripocitajVSMuziTRETIA(int kolko) {
+		VSmuzi->at(2) += kolko;
+	}
+
+	void pripocitajVSZenyPRVA(int kolko) {
+		VSzeny->at(0) += kolko;
+	}
+	void pripocitajVSZenyDRUHA(int kolko) {
+		VSzeny->at(1) += kolko;
+	}
+	void pripocitajVSZenyTRETIA(int kolko) {
+		VSzeny->at(2) += kolko;
+	}
+
+
+
 	//nastavi vek na urcitom mieste
 	void nastavVekKtoryKolkoMuzi(int ktory, int kolko) {
 		muzi->at(ktory) = kolko;
@@ -105,45 +129,6 @@ public:
 	}
 	//koniec vracania vekov
 	
-
-	//vytvorí vekové skupiny
-	void vytvorSkupiny() {
-
-		for (int i = 0; i < muzi->size(); i++)
-		{
-			for (int y = 0; y < muzi->size(); y++) {
-
-				if (y <= 14) {
-					VSmuzi->at(0) += muzi->at(y);
-				}
-				if ((y > 14 && y <= 64)) {
-					VSmuzi->at(1) += muzi->at(y);
-				}
-				if ((y > 64)) {
-					VSmuzi->at(2) += muzi->at(y);
-				}
-			}
-			
-		}
-
-		//zeny
-		for (int i = 0; i < zeny->size(); i++)
-		{
-			for (int y = 0; y < zeny->size(); y++) {
-
-				if (y <= 14) {
-					VSzeny->at(0) += zeny->at(y);
-				}
-				if ((y > 14 && y <= 64)) {
-					VSzeny->at(1) += zeny->at(y);
-				}
-				if ((y > 64)) {
-					VSzeny->at(2) += zeny->at(y);
-				}
-			}
-		}
-	}
-
 
 	//vraciam atribúty veky
 	structures::Array<int>* getMuzi() {

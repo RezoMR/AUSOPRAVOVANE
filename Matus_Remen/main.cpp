@@ -8,6 +8,9 @@ int main() {
 	initHeapMonitor();
 	Priradovanie* p = new Priradovanie();
 	p->prirad();
+	//CSVCitac* p = new CSVCitac();
+	//p->nacitajVek();
+
 
 	delete p;
 	return 0;

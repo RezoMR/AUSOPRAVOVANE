@@ -12,7 +12,6 @@ public:
 
 };
 inline string KriteriumUJNazov::evaluate(UzemnaJednotka& uj) {
-	std::cout << "Nazov: " <<  uj.getNazov() << "\n";
 	return uj.getNazov();
 }
 inline KriteriumUJNazov::KriteriumUJNazov() {

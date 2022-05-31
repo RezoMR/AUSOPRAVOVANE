@@ -397,11 +397,35 @@ public:
 				cisla->at(celkovo) = (cislo);
 				celkovo++;
 				riadok.erase(0, counter + 1);
+
 			}
+
 			for (int y = 0; y < 101; y++)
 			{
 				vek->nastavVekKtoryKolkoMuzi(y, cisla->at(y));
-				vek->nastavVekKtoryKolkoZeny(y, cisla->at(y+100));
+
+				if (y < 15) {
+					vek->pripocitajVSMuziPRVA(cisla->at(y));
+				}
+				if (y >= 15 && y <= 64) {
+					vek->pripocitajVSMuziDRUHA(cisla->at(y));
+				}
+				if (y > 64  && y <= 101) {
+					vek->pripocitajVSMuziTRETIA(cisla->at(y));
+				}
+
+				vek->nastavVekKtoryKolkoZeny(y, cisla->at(y+101));
+
+				if (y < 15) {
+					vek->pripocitajVSZenyPRVA(cisla->at(y+101));
+				}
+				if (y >= 15 && y <= 64) {
+					vek->pripocitajVSZenyDRUHA(cisla->at(y+101));
+				}
+				if (y > 64 && y <= 101) {
+					vek->pripocitajVSZenyTRETIA(cisla->at(y+101));
+				}
+
 			}
 
 			vysledok->insert(kodObce, vek);
